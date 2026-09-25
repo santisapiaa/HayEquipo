@@ -353,7 +353,7 @@ const PartidoDetalle = () => {
 
     const title = `Convocatoria Oficial: vs ${match.rival}`;
     const dateFormatted = format(new Date(match.date), "EEEE d 'de' MMMM · HH:mm'hs'", { locale: es });
-    const message = `El DT Caruso Lombardi ha publicado la lista de convocados oficiales para el encuentro frente a ${match.rival} en ${match.venue} (${dateFormatted}).\n\n${messageBody.trim()}\n\n¡Hay equipo!`;
+    const message = `El DT ${user?.name || 'del equipo'} ha publicado la lista de convocados oficiales para el encuentro frente a ${match.rival} en ${match.venue} (${dateFormatted}).\n\n${messageBody.trim()}\n\n¡Hay equipo!`;
     
     addNotice(title, message, 'dt', 'convocatoria');
     toast.success('¡Convocatoria publicada en el Muro de Avisos!');
