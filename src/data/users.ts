@@ -17,10 +17,10 @@ export const demoUsers: DemoUser[] = [
   {
     id: '11111111-1111-1111-1111-111111111111',
     supabaseId: '11111111-1111-1111-1111-111111111111',
-    name: 'Caruso Lombardi (DT)',
+    name: 'Lionel Scaloni (DT)',
     role: 'dt',
     roleLabel: 'Director Técnico',
-    initials: 'CL',
+    initials: 'LS',
     color: '#013220',
     emoji: '📋',
   },
