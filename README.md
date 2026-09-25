@@ -1,73 +1,92 @@
-# Welcome to your Lovable project
+> **Nota:** este repositorio es una versión propia del proyecto grupal **HayEquipo**
+> ([ivolevy/hayequipo-mvp](https://github.com/ivolevy/hayequipo-mvp)), desarrollado en
+> equipo para la facultad. Mi rol en el equipo: **diseño de la interfaz y frontend**.
 
-## Project info
+# HayEquipo
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Plataforma de gestión centralizada para planteles amateurs de fútbol. Permite a un
+Director Técnico organizar partidos, convocatorias y formaciones, mientras que
+Preparador Físico y Nutricionista hacen seguimiento del estado de los jugadores, y
+cada jugador ve su propia información desde su perfil.
 
-## How can I edit this code?
+## Roles
 
-There are several ways of editing your application.
+- **DT (Director Técnico):** crea partidos, arma convocatorias y formaciones, gestiona
+  el plantel y publica avisos.
+- **Jugador:** confirma/rechaza convocatorias, ve entrenamientos y plan nutricional.
+- **PF (Preparador Físico):** hace seguimiento del estado físico del plantel y arma
+  planes de entrenamiento.
+- **Nutricionista:** define objetivos y recomendaciones nutricionales para el equipo.
+- **Admin:** gestión general del equipo y planes.
 
-**Use Lovable**
+## Tecnologías
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+- [Vite](https://vitejs.dev/) + [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [shadcn-ui](https://ui.shadcn.com/) + [Tailwind CSS](https://tailwindcss.com/)
+- [Supabase](https://supabase.com/) (base de datos, autenticación y realtime)
+- PWA (instalable, con soporte offline básico vía service worker)
 
-Changes made via Lovable will be committed automatically to this repo.
+## Desarrollo local
 
-**Use your preferred IDE**
+### 1. Requisitos
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js 18+
+- Un proyecto de [Supabase](https://supabase.com/) propio (gratis)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### 2. Instalar dependencias
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+npm install
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 3. Configurar variables de entorno
 
-# Step 3: Install the necessary dependencies.
-npm i
+Creá un archivo `.env` en la raíz del proyecto:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```sh
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=tu_anon_key
+```
+
+Estas credenciales se obtienen desde el dashboard de Supabase, botón **Connect** o
+**Project Settings → API Keys**. Nunca subas este archivo al repo (ya está en
+`.gitignore`), y nunca uses la `service_role` key en el frontend.
+
+### 4. Base de datos
+
+Las migraciones SQL están en [`supabase/migrations/`](supabase/migrations/). Corré cada
+una en el **SQL Editor** de tu proyecto de Supabase, en este orden:
+
+1. `20260518111023_hayequipo_tables.sql`
+2. `20260603150000_multiteam_schema.sql`
+3. `20260622000000_fix_constraints_and_persistence.sql`
+4. `20260622010000_add_team_plan.sql`
+5. `20260622020000_add_push_subscriptions.sql`
+6. `grants.sql`
+7. `fix_access.sql`
+8. `policies.sql`
+
+(`restored_migration.sql` es un backup de la migración 1, no hace falta correrlo.)
+
+### 5. Levantar el servidor
+
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+La app queda disponible en `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Scripts disponibles
 
-**Use GitHub Codespaces**
+| Comando | Descripción |
+|---|---|
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción |
+| `npm run lint` | Linter (ESLint) |
+| `npm run test` | Tests (Vitest) |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Deploy
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+El proyecto está pensado para desplegarse en [Vercel](https://vercel.com/): importá el
+repo y configurá las mismas dos variables de entorno (`VITE_SUPABASE_URL` y
+`VITE_SUPABASE_ANON_KEY`) en Project Settings → Environment Variables.
